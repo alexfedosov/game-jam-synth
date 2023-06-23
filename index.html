@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game Jam Theme Synthesizer</title>
+  <style>
+    body {
+      background-color: #ecf2cb;
+      font-family: 'Press Start 2P';
+      color: #0B333C;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .slider-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 0.8em;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 70%;
+      height: 15px;
+      background: #d5e194;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #0B333C;
+      cursor: pointer;
+      border-radius: 0;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #0B333C;
+      cursor: pointer;
+      border-radius: 0;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin: 1em 0;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #FF6C6C; 
+      min-height: 100px; 
+      padding-bottom: 100px;
+    }
+
+    button {
+      background-color: #8BAA52;
+      border: none;
+      color: #0B333C;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <h1 id="theme">Move sliders to start...</h1>
+
+  <div class="slider-container">
+    <label for="darkness">Darkness:</label>
+    <input type="range" id="darkness" name="darkness" min="0" max="10">
+  </div>
+
+  <div class="slider-container">
+    <label for="abstract">Abstract:</label>
+    <input type="range" id="abstract" name="abstract" min="0" max="10">
+  </div>
+
+  <div class="slider-container">
+    <label for="ease">Ease:</label>
+    <input type="range" id="ease" name="ease" min="0" max="10">
+  </div>
+
+  <div class="slider-container">
+    <label for="tech">Tech:</label>
+    <input type="range" id="tech" name="tech" min="0" max="10">
+  </div>
+
+  <script>
+    const darkness = [
+      "Twilight",
+      "Shadows",
+      "Eclipse",
+      "Mystery",
+      "Moonlight",
+      "Veil",
+      "Gloom",
+      "Fog",
+      "Clouded",
+      "Mystique",
+      "Ghosts",
+      "Silhouettes",
+      "Nightfall",
+      "Obscured",
+      "Secrecy",
+      "Dusk",
+      "Haunted",
+      "Phantom",
+      "Shade",
+      "Specter",
+      "Midnight",
+      "Whispers",
+      "Hidden",
+      "Nocturnal",
+      "Cryptic",
+      "Sorcery",
+      "Cloaked",
+      "Lost",
+      "Raven",
+      "Enigma",
+      "Cursed",
+      "Confusion",
+      "Dread",
+      "Banshee",
+      "Solitude",
+      "Witching Hour",
+      "Bewitched",
+      "Torment",
+      "Secluded",
+      "Tomb",
+      "Curse",
+      "Spellbound",
+      "Fright",
+      "Panic",
+      "Grim",
+      "Shriek",
+      "Concealed",
+      "Paranoia",
+      "Sorrows",
+      "Chills",
+      "Despair",
+      "Desolate",
+      "Isolation",
+      "Purgatory",
+      "Wailing",
+      "Cavernous",
+      "Forbidden",
+      "Blackness",
+      "Labyrinth",
+      "Doomed",
+      "Insidious",
+      "Lament",
+      "Petrified",
+      "Possessed",
+      "Catacombs",
+      "Grief",
+      "Demonic",
+      "Fearful",
+      "Horrors",
+      "Morgue",
+      "Terror",
+      "Agony",
+      "Graveyard",
+      "Tortured",
+      "Nightmares",
+      "Coffin",
+      "Apparition",
+      "Ghastly",
+      "Gargoyle",
+      "Distress",
+      "Suffering",
+      "Underworld",
+      "Gruesome",
+      "Catastrophe",
+      "Gore",
+      "Bleak",
+      "Destruction",
+      "Fangs",
+      "Bloodthirsty",
+      "Malignant",
+      "Cruel",
+      "Wretched",
+      "Sacrifice",
+      "Morbid",
+      "Deathly",
+      "Malevolent",
+      "Sinister",
+      "Ghoul",
+      "Tombstone",
+      "Murder",
+      "Apocalyptic",
+      "Necromancer",
+      "Grave",
+      "Skeletal",
+      "Carnage",
+      "Decay",
+      "Eternal Night",
+      "Vampire",
+      "Bloodcurdling",
+      "Hell",
+      ];
+
+    const abstract = [
+      "Shape",
+      "Form",
+      "Pattern",
+      "Texture",
+      "Line",
+      "Curve",
+      "Symmetry",
+      "Color",
+      "Balance",
+      "Structure",
+      "Harmony",
+      "Contrast",
+      "Geometry",
+      "Dimension",
+      "Space",
+      "Proportion",
+      "Perspective",
+      "Movement",
+      "Rhythm",
+      "Scale",
+      "Unity",
+      "Volume",
+      "Light",
+      "Fragment",
+      "Diversity",
+      "Sequence",
+      "Flow",
+      "Wave",
+      "Variation",
+      "Echo",
+      "Emphasis",
+      "Spectrum",
+      "Infinity",
+      "Transition",
+      "Energy",
+      "Vibration",
+      "Reflection",
+      "Symmetry",
+      "Distortion",
+      "Depth",
+      "Illusion",
+      "Opacity",
+      "Vortex",
+      "Elevation",
+      "Silhouette",
+      "Radiance",
+      "Time",
+      "Emotion",
+      "Mind",
+      "Memory",
+      "Consciousness",
+      "Idea",
+      "Sense",
+      "Perception",
+      "Intuition",
+      "Feeling",
+      "Thought",
+      "Sensation",
+      "Imagination",
+      "Dream",
+      "Vision",
+      "Belief",
+      "Wisdom",
+      "Inspiration",
+      "Fantasy",
+      "Creativity",
+      "Ambition",
+      "Desire",
+      "Passion",
+      "Experience",
+      "Hope",
+      "Mystery",
+      "Joy",
+      "Love",
+      "Fear",
+      "Sorrow",
+      "Peace",
+      "Chaos",
+      "Soul",
+      "Spirit",
+      "Eternity",
+      "Truth",
+      "Reality",
+      "Existence",
+      "Concept",
+      "Notion",
+      "Paradox",
+      "Phenomenon",
+      "Dilemma",
+      "Uncertainty",
+      "Essence",
+      "Mysticism",
+      "Divinity",
+      "Transcendence",
+      "Infinity",
+      "Enlightenment",
+      "Cosmos",
+      "Void",
+      "Quantum",
+      "Universe",
+      "Multiverse",
+      "Nothingness",
+      "Everything",
+      "Absolute",
+      "Unknown"
+      ];
+
+    const ease = [
+      "Complication",
+      "Problem",
+      "Challenge",
+      "Struggle",
+      "Trial",
+      "Hurdle",
+      "Barrier",
+      "Dilemma",
+      "Difficulty",
+      "Puzzle",
+      "Obstacle",
+      "Hardship",
+      "Adversity",
+      "Misfortune",
+      "Turmoil",
+      "Strain",
+      "Stress",
+      "Ordeal",
+      "Disorder",
+      "Trouble",
+      "Conflict",
+      "Battle",
+      "Opposition",
+      "Crisis",
+      "Chaos",
+      "Intrigue",
+      "Confusion",
+      "Complexity",
+      "Tension",
+      "Pressure",
+      "Web",
+      "Skein",
+      "Predicament",
+      "Controversy",
+      "Labyrinth",
+      "Maze",
+      "Whirlpool",
+      "Disarray",
+      "Mayhem",
+      "Pandemonium",
+      "Havoc",
+      "Vortex",
+      "Riddle",
+      "Enigma",
+      "Mystery",
+      "Quandary",
+      "Conundrum",
+      "Poser",
+      "Twister",
+      "Bewilderment",
+      "Perplexity",
+      "Bafflement",
+      "Puzzlement",
+      "Confoundedness",
+      "Muddlement",
+      "Transition",
+      "Change",
+      "Shift",
+      "Turn",
+      "Switch",
+      "Swap",
+      "Variation",
+      "Exchange",
+      "Substitution",
+      "Trade",
+      "Adjustment",
+      "Movement",
+      "Motion",
+      "Action",
+      "Ease",
+      "Comfort",
+      "Relief",
+      "Calm",
+      "Simplicity",
+      "Peace",
+      "Quiet",
+      "Rest",
+      "Leisure",
+      "Lull",
+      "Serenity",
+      "Tranquility",
+      "Harmony",
+      "Equilibrium",
+      "Balance",
+      "Symmetry",
+      "Repose",
+      "Respite",
+      "Pause",
+      "Break",
+      "Interval",
+      "Hiatus",
+      "Lapse",
+      "Intermission",
+      "Recess",
+      "Relaxation",
+      "Unwind",
+      "Recreation",
+      "Soothe",
+      "Unruffle",
+      "Breathe",
+      "De-stress",
+      "Chill",
+      "Untroubled",
+      "Soothed",
+      "Restful",
+      "Peaceful",
+      "Tranquil"
+      ];
+
+    const tech = [
+      "Stone",
+      "Bronze",
+      "Iron",
+      "Tool",
+      "Wheel",
+      "Fire",
+      "Paper",
+      "Compass",
+      "Printing",
+      "Engine",
+      "Steam",
+      "Telegraph",
+      "Electricity",
+      "Telephone",
+      "Radio",
+      "Automobile",
+      "Plane",
+      "Plastic",
+      "Television",
+      "Satellite",
+      "Laser",
+      "Computer",
+      "Internet",
+      "Smartphone",
+      "Nanotechnology",
+      "Robot",
+      "Genome",
+      "Neural Network",
+      "Quantum",
+      "AI",
+      "Spacecraft",
+      "Hologram",
+      "Virtual Reality",
+      "Blockchain",
+      "3D Printing",
+      "Biotechnology",
+      "Cybernetics",
+      "Nanobots",
+      "Drones",
+      "Autonomous Vehicle",
+      "Exoskeleton",
+      "Augmented Reality",
+      "Artificial Organs",
+      "Genetic Engineering",
+      "Cryptocurrency",
+      "Big Data",
+      "Machine Learning",
+      "Cloud Computing",
+      "Cyberspace",
+      "E-Waste",
+      "Biofuel",
+      "Deep Learning",
+      "Darknet",
+      "Quantum Computing",
+      "Internet of Things",
+      "Wireless Energy",
+      "Virtual Assistant",
+      "Neuroprosthetics",
+      "Advanced AI",
+      "Stem Cells",
+      "Cryonics",
+      "Fusion Power",
+      "Synthetic Biology",
+      "Human Cloning",
+      "Brain-Computer Interface",
+      "Metaverse",
+      "Lab-Grown Meat",
+      "Carbon Capture",
+      "Virtual Currency",
+      "Smart Grid",
+      "Cybernetic Implants",
+      "Nanomedicine",
+      "Human Augmentation",
+      "Biohacking",
+      "Quantum Internet",
+      "Transhumanism",
+      "Nanomachines",
+      "Mind Uploading",
+      "Hyperspace",
+      "Virtual Consciousness",
+      "Quantum Teleportation",
+      "Multiverse",
+      "Time Travel",
+      "Artificial Superintelligence",
+      "Post-Singularity",
+      "Digital Immortality",
+      "Quantum Entanglement",
+      "Higgs Boson",
+      "Dark Matter",
+      "Extraterrestrial Tech",
+      "Intergalactic Travel",
+      "Universal Translator",
+      "Anti-Gravity",
+      "Wormhole",
+      "Cloaking Device",
+      "Hyperloop",
+      "Dyson Sphere",
+      "Terraforming",
+      "Cyberlife",
+      "Galactic Empire",
+      "Stellar Engine",
+      "Transdimensional",
+      "Anti-Matter",
+      "Multidimensional",
+      "Techno-Utopia"
+      ];
+
+    const themes = {
+      darkness: darkness,
+      abstract: abstract,
+      ease: ease,
+      tech: tech,
+    };
+
+    const structures = [
+      "{0} meets {1}",
+      "{0} within {1}",
+      "{0} versus {1}",
+      "The power of {0} in {1}",
+      "Unveiling {0} through {1}",
+      "In a world of {0}, find {1}",
+      "Escaping {0} with {1}",
+      "Balancing {0} and {1}",
+      "Harmonizing {0} in {1}",
+      "Navigating {0} to discover {1}",
+      "The secret of {0} in {1}",
+      "{0}'s {1} odyssey",
+      "A journey into {0} and {1}",
+      "The dance of {0} and {1}",
+      "Mastering {0} in a {1} realm",
+      "Chasing {0} within {1}",
+      "Facing the {0} of {1}",
+      "Surviving {0} by harnessing {1}",
+      "Unlocking the {0} of {1}",
+      "{0}'s game in {1}",
+      "Exploring {0}'s {1}",
+      "The essence of {0} in {1}",
+      "The {0} of {1}",
+      "{0}'s {1} journey",
+      "The balance of {0} and {1}",
+      "{0} in a {1} world",
+      "{0}'s {1} challenge",
+      "The tale of {0} and {1}",
+      "{0}'s path through {1}",
+      "In the realm of {0}, discover {1}"
+      ];
+
+    function generateTemplates(structures, categories) {
+      const templates = [];
+      const numberOfTemplates = 100;
+      const numberOfStructures = structures.length;
+      const numberOfCategories = categories.length;
+
+      for (let i = 0; i < numberOfTemplates; i++) {
+        const structure = structures[i % numberOfStructures];
+        const category1 = categories[i % numberOfCategories];
+        const category2 = categories[(i + 1) % numberOfCategories];
+        templates.push(structure.replace("{0}", `{${category1}}`).replace("{1}", `{${category2}}`));
+      }
+
+      return templates;
+    }
+
+    const categories = ["darkness", "abstract", "ease", "tech"];
+    const templates = generateTemplates(structures, categories);
+
+    function getTheme(darkness, abstract, ease, tech) {
+      const themeComponents = {
+        darkness: getRandomValue(themes.darkness, darkness),
+        abstract: getRandomValue(themes.abstract, abstract),
+        ease: getRandomValue(themes.ease, ease),
+        tech: getRandomValue(themes.tech, tech)
+      };
+
+      const template = templates[Math.floor(Math.random() * templates.length)];
+      const theme = template.replace(/{(\w+)}/g, (_, key) => themeComponents[key]);
+
+      return theme;
+    }
+
+    function getRandomValue(themeArray, sliderValue) {
+      const startIndex = Math.floor(sliderValue / 10 * 90);
+      const randomIndex = Math.floor(Math.random() * 10) + startIndex;
+      return themeArray[randomIndex];
+    }
+
+    function generateTheme() {
+      const darknessSlider = document.getElementById('darkness');
+      const abstractSlider = document.getElementById('abstract');
+      const easeSlider = document.getElementById('ease');
+      const techSlider = document.getElementById('tech');
+
+      const darknessValue = darknessSlider.value;
+      const abstractValue = abstractSlider.value;
+      const easeValue = easeSlider.value;
+      const techValue = techSlider.value;
+
+      const theme = getTheme(darknessValue, abstractValue, easeValue, techValue);
+
+      const themeElement = document.getElementById('theme');
+      themeElement.textContent = theme;
+    }
+
+    document.getElementById('darkness').addEventListener('input', generateTheme);
+    document.getElementById('abstract').addEventListener('input', generateTheme);
+    document.getElementById('ease').addEventListener('input', generateTheme);
+    document.getElementById('tech').addEventListener('input', generateTheme);
+
+  </script>
+</body>
+</html>
